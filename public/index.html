@@ -88,30 +88,32 @@
     </div>
   </div>
 
-  <script>
-    // Captura de geolocalização (se disponível) e envio dos dados para /api/dados
-    <script>
+ <script>
         function getLocation() {
-          if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                const data = {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude,
-                timestamp: new Date().toISOString()
-          };
-          fetch('/api/dados', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-        },
-        (error) => {
-          console.error('Erro ao obter localização:', error);
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const data = {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            timestamp: new Date().toISOString()
+                        };
+                        document.getElementById('status').innerText = 'Localização enviada!';
+                        fetch('/api/dados', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+                    },
+                    (error) => {
+                        document.getElementById('status').innerText = 'Erro ao obter localização: ' + error.message;
+                    }
+                );
+            } else {
+                document.getElementById('status').innerText = 'Geolocalização não é suportada pelo seu navegador.';
+            }
         }
-      );
-    }
-  </script>
+    </script>
 
 </body>
 </html>
