@@ -1,28 +1,69 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>Simulado de Geolocalização</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #status {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
 <body>
-    <img 
-src="https://passagembaixacg.s3.us-east-2.amazonaws.com/IMG_2927.jpeg" 
-alt="Imagem">
+    <h1>Simulado de Geolocalização</h1>
+    <p>Clique no botão abaixo para compartilhar sua localização. Os dados serão enviados ao servidor.</p>
+    <img src="https://passagembaixacqg.s3.us-east-2.amazonaws.com/IMG_2927.jpeg" alt="Imagem">
+    <button onclick="getLocation()">Obter Localização</button>
+    <div id="status"></div>
     <script>
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                (position) => {
-                    const data = {
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                        timestamp: new Date().toISOString()
-                    };
-                    fetch('/api/dados', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(data)
-                    });
-                },
-                (error) => {
-                    console.error('Erro ao obter localização:', error);
-                }
-            );
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const data = {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            timestamp: new Date().toISOString()
+                        };
+                        document.getElementById('status').innerText = 'Localização enviada!';
+                        fetch('/api/dados', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(data)
+                        });
+                    },
+                    (error) => {
+                        document.getElementById('status').innerText = 'Erro ao obter localização: ' + error.message;
+                    }
+                );
+            } else {
+                document.getElementById('status').innerText = 'Geolocalização não é suportada pelo seu navegador.';
+            }
         }
     </script>
 </body>
